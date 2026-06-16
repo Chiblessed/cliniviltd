@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clinivi — CQC compliance, without the sleepless nights</title>
+<meta name="description" content="Clinivi helps UK healthcare leaders pass CQC inspections, build sound governance and lead with confidence. Real people. Honest advice. No jargon." />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0E1B2C;
+  --ink-soft:#22314A;
+  --paper:#F6F2EA;
+  --paper-warm:#EFE8DA;
+  --cream:#FBF8F2;
+  --sage:#2E6F64;
+  --sage-deep:#1F4F47;
+  --sage-soft:#E4EEEA;
+  --amber:#C7882E;
+  --line:#E3DCCC;
+  --muted:#5C6577;
+  --white:#fff;
+  --display:'Fraunces',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+  --radius:14px;
+  --shadow-sm:0 1px 2px rgba(14,27,44,.06), 0 2px 6px rgba(14,27,44,.04);
+  --shadow-md:0 10px 30px -12px rgba(14,27,44,.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--cream);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--sage);color:#fff}
+
+/* progress */
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--sage);z-index:300;width:0}
+
+/* nav */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 6%;
+  background:rgba(251,248,242,.85);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s, padding .3s;
+}
+nav.scrolled{border-color:var(--line);padding:12px 6%}
+.logo{font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:-.01em;text-decoration:none;color:var(--ink)}
+.logo span{color:var(--sage);font-style:italic}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.9rem;color:var(--ink-soft);text-decoration:none;transition:color .2s;position:relative}
+.nav-links a:hover{color:var(--sage)}
+.nav-cta{
+  background:var(--ink);color:#fff;text-decoration:none;
+  padding:.7rem 1.3rem;border-radius:999px;font-size:.85rem;font-weight:500;
+  transition:background .25s, transform .25s;
+}
+.nav-cta:hover{background:var(--sage);transform:translateY(-1px)}
+
+/* hero */
+.hero{
+  position:relative;padding:160px 6% 100px;
+  background:
+    radial-gradient(900px 500px at 85% 10%, rgba(46,111,100,.10), transparent 60%),
+    radial-gradient(700px 400px at 5% 90%, rgba(199,136,46,.08), transparent 60%),
+    var(--cream);
+  overflow:hidden;
+}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:5rem;align-items:center;max-width:1320px;margin:0 auto}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sage);margin-bottom:1.5rem;
+}
+.eyebrow::before{content:"";width:24px;height:1px;background:var(--sage)}
+.hero h1{
+  font-family:var(--display);font-weight:500;
+  font-size:clamp(2.4rem,5.2vw,4.4rem);
+  line-height:1.05;letter-spacing:-.02em;color:var(--ink);
+  margin-bottom:1.6rem;
+}
+.hero h1 em{font-style:italic;color:var(--sage);font-weight:500}
+.hero p.lead{font-size:1.1rem;color:var(--ink-soft);max-width:520px;margin-bottom:2.2rem;line-height:1.7}
+.hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.95rem 1.6rem;border-radius:999px;font-size:.92rem;font-weight:500;
+  text-decoration:none;border:1px solid transparent;cursor:pointer;
+  transition:transform .25s, background .25s, color .25s, border-color .25s, box-shadow .25s;
+  font-family:var(--body);
+}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:var(--sage);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+.btn .arrow{transition:transform .25s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+.hero-aside{
+  position:relative;background:var(--white);border:1px solid var(--line);
+  border-radius:24px;padding:2.2rem;box-shadow:var(--shadow-md);
+}
+.aside-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--sage-soft);color:var(--sage-deep);font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.35rem .7rem;border-radius:999px;margin-bottom:1.4rem}
+.aside-tag .dot{width:6px;height:6px;background:var(--sage);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.aside-quote{font-family:var(--display);font-size:1.25rem;line-height:1.4;color:var(--ink);margin-bottom:1.6rem;font-weight:500;letter-spacing:-.01em}
+.aside-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;border-top:1px solid var(--line);padding-top:1.4rem}
+.aside-stat .n{font-family:var(--display);font-size:1.8rem;font-weight:600;color:var(--ink);line-height:1}
+.aside-stat .n em{color:var(--sage);font-style:normal}
+.aside-stat .l{font-size:.72rem;color:var(--muted);margin-top:.25rem;letter-spacing:.02em}
+
+/* marquee trust */
+.trust{
+  background:var(--paper);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:22px 0;overflow:hidden;position:relative;
+}
+.trust-track{display:flex;gap:3.5rem;width:max-content;animation:trustScroll 40s linear infinite}
+.trust-item{display:flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:600;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.14em;white-space:nowrap}
+.trust-item .mark{color:var(--sage)}
+@keyframes trustScroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:120px 6%}
+.section-head{max-width:780px;margin:0 auto 4.5rem;text-align:center}
+.section-head .eyebrow{justify-content:center}
+h2.section-title{
+  font-family:var(--display);font-weight:500;letter-spacing:-.02em;
+  font-size:clamp(2rem,4vw,3.2rem);line-height:1.1;color:var(--ink);margin-bottom:1.2rem;
+}
+h2.section-title em{font-style:italic;color:var(--sage);font-weight:500}
+.section-sub{font-size:1.05rem;color:var(--ink-soft);max-width:600px;margin:0 auto;line-height:1.7}
+
+.section-alt{background:var(--paper)}
+
+/* pains */
+.pain-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.pain{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:1.8rem;transition:transform .3s, box-shadow .3s, border-color .3s}
+.pain:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:transparent}
+.pain h4{font-family:var(--display);font-size:1.15rem;font-weight:600;margin-bottom:.6rem;color:var(--ink);letter-spacing:-.01em}
+.pain p{font-size:.92rem;color:var(--ink-soft);line-height:1.65}
+.pain .ico{width:42px;height:42px;border-radius:12px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;font-size:1.1rem;margin-bottom:1rem}
+
+/* services */
+.services{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.service{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  padding:2rem;position:relative;overflow:hidden;
+  transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.service::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--sage);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.service:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:transparent}
+.service:hover::after{transform:scaleX(1)}
+.service .ico{width:44px;height:44px;border-radius:12px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;font-size:1.15rem;margin-bottom:1.2rem;transition:transform .35s}
+.service:hover .ico{transform:rotate(-4deg) scale(1.05)}
+.service h3{font-family:var(--display);font-weight:600;font-size:1.2rem;color:var(--ink);margin-bottom:.5rem;letter-spacing:-.01em}
+.service p{font-size:.92rem;color:var(--ink-soft);line-height:1.65}
+
+/* process */
+.process{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;position:relative}
+.process::before{content:"";position:absolute;top:30px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--line),transparent);z-index:0}
+.step{text-align:center;position:relative;z-index:1}
+.step-n{
+  width:60px;height:60px;border-radius:50%;background:var(--cream);border:1px solid var(--line);
+  display:grid;place-items:center;margin:0 auto 1.2rem;
+  font-family:var(--display);font-weight:600;font-size:1.3rem;color:var(--ink);
+  transition:background .35s, color .35s, transform .35s, border-color .35s;
+}
+.step:hover .step-n{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-3px)}
+.step h4{font-family:var(--display);font-size:1.2rem;font-weight:600;color:var(--ink);margin-bottom:.6rem}
+.step p{font-size:.92rem;color:var(--ink-soft);line-height:1.65;max-width:280px;margin:0 auto}
+
+/* testimonials marquee */
+.testimonials{padding:120px 0;background:var(--paper);overflow:hidden;position:relative}
+.testimonials .section-head{padding:0 6%}
+.marquee{position:relative;overflow:hidden;padding:.5rem 0;margin-bottom:1.4rem;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%)}
+.marquee-track{display:flex;gap:1.4rem;width:max-content;will-change:transform}
+.marquee.left .marquee-track{animation:scrollLeft 60s linear infinite}
+.marquee.right .marquee-track{animation:scrollRight 70s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes scrollRight{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.t-card{
+  flex:0 0 380px;background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:1.8rem 1.8rem 1.6rem;
+  display:flex;flex-direction:column;gap:.9rem;
+}
+.t-stars{color:var(--amber);font-size:.95rem;letter-spacing:.1em}
+.t-quote{font-family:var(--display);font-size:1.05rem;line-height:1.5;color:var(--ink);font-weight:500;letter-spacing:-.005em}
+.t-meta{display:flex;align-items:center;gap:.8rem;margin-top:auto;padding-top:.8rem;border-top:1px solid var(--line)}
+.t-avatar{width:40px;height:40px;border-radius:50%;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;font-family:var(--display);font-weight:600;font-size:.95rem}
+.t-name{font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.2}
+.t-role{font-size:.78rem;color:var(--muted);line-height:1.3;margin-top:2px}
+
+/* pricing */
+.pricing-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;align-items:stretch}
+.plan{
+  position:relative;background:var(--white);border:1px solid var(--line);border-radius:22px;padding:2.2rem;
+  display:flex;flex-direction:column;transition:transform .35s, box-shadow .35s, border-color .35s;
+}
+.plan:hover{transform:translateY(-6px);box-shadow:var(--shadow-md)}
+.plan.feature{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-8px)}
+.plan.feature:hover{transform:translateY(-12px);box-shadow:0 24px 60px -20px rgba(14,27,44,.4)}
+.plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--amber);color:#fff;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.4rem .9rem;border-radius:999px}
+.plan-tier{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:.8rem}
+.plan.feature .plan-tier{color:#A8D5CD}
+.plan-price{font-family:var(--display);font-weight:500;font-size:3rem;line-height:1;color:var(--ink);letter-spacing:-.02em;display:flex;align-items:baseline;gap:.2rem}
+.plan.feature .plan-price{color:#fff}
+.plan-price .cur{font-size:1.4rem;color:var(--muted);font-weight:500}
+.plan.feature .plan-price .cur{color:#A8D5CD}
+.plan-price .per{font-size:.95rem;color:var(--muted);font-weight:400;font-family:var(--body);font-style:italic}
+.plan.feature .plan-price .per{color:rgba(255,255,255,.55)}
+.plan-desc{font-size:.93rem;color:var(--ink-soft);margin:1rem 0 1.6rem;line-height:1.6}
+.plan.feature .plan-desc{color:rgba(255,255,255,.7)}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+.plan-feats li{font-size:.9rem;color:var(--ink);display:flex;align-items:flex-start;gap:.6rem;line-height:1.5}
+.plan.feature .plan-feats li{color:rgba(255,255,255,.88)}
+.plan-feats li::before{content:"";flex:0 0 18px;height:18px;border-radius:50%;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center;font-size:.7rem;margin-top:2px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%231F4F47' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M3 8.5l3 3 7-7'/></svg>");background-repeat:no-repeat;background-position:center;background-size:11px}
+.plan.feature .plan-feats li::before{background-color:rgba(168,213,205,.15);background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23A8D5CD' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M3 8.5l3 3 7-7'/></svg>")}
+.plan-cta{
+  margin-top:auto;display:block;text-align:center;padding:.9rem 1rem;border-radius:999px;
+  font-size:.9rem;font-weight:500;text-decoration:none;
+  background:var(--paper);color:var(--ink);transition:background .25s, color .25s, transform .25s;
+  border:1px solid var(--line);
+}
+.plan-cta:hover{background:var(--ink);color:#fff;transform:translateY(-2px);border-color:var(--ink)}
+.plan.feature .plan-cta{background:var(--sage);color:#fff;border-color:var(--sage)}
+.plan.feature .plan-cta:hover{background:#fff;color:var(--ink);border-color:#fff}
+.plan-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:.8rem}
+.plan.feature .plan-note{color:rgba(255,255,255,.55)}
+
+/* cta banner */
+.banner{
+  margin:0 6% 0;border-radius:28px;background:var(--ink);color:#fff;
+  padding:90px 8%;text-align:center;position:relative;overflow:hidden;
+}
+.banner::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 400px at 20% 20%, rgba(46,111,100,.35), transparent 60%), radial-gradient(500px 300px at 80% 80%, rgba(199,136,46,.18), transparent 60%);pointer-events:none}
+.banner h2{font-family:var(--display);font-weight:500;font-size:clamp(1.8rem,3.5vw,2.8rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:1rem;position:relative}
+.banner h2 em{color:#A8D5CD;font-style:italic}
+.banner p{color:rgba(255,255,255,.7);max-width:540px;margin:0 auto 2rem;position:relative}
+.banner .hero-actions{justify-content:center;position:relative}
+.banner .btn-primary{background:#fff;color:var(--ink)}
+.banner .btn-primary:hover{background:var(--sage);color:#fff}
+.banner .btn-ghost{color:#fff;border-color:rgba(255,255,255,.3)}
+.banner .btn-ghost:hover{border-color:#fff}
+
+/* contact */
+.contact{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem}
+.contact h3{font-family:var(--display);font-weight:500;font-size:2rem;letter-spacing:-.02em;margin-bottom:1rem;color:var(--ink)}
+.contact .lead{color:var(--ink-soft);margin-bottom:2rem;font-size:1rem}
+.detail{display:flex;align-items:center;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--line)}
+.detail:last-child{border-bottom:0}
+.detail-ico{width:42px;height:42px;border-radius:12px;background:var(--sage-soft);color:var(--sage-deep);display:grid;place-items:center}
+.detail .l{font-size:.75rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.detail .v{font-size:.95rem;color:var(--ink);font-weight:500}
+.form-box{background:var(--white);border:1px solid var(--line);border-radius:22px;padding:2.4rem;box-shadow:var(--shadow-sm)}
+.field{margin-bottom:1.2rem}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--ink-soft);letter-spacing:.05em;margin-bottom:.4rem;text-transform:uppercase}
+.field input,.field textarea{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:.85rem 1rem;outline:none;transition:border-color .2s, background .2s, box-shadow .2s}
+.field input:focus,.field textarea:focus{border-color:var(--sage);background:#fff;box-shadow:0 0 0 4px rgba(46,111,100,.1)}
+.field textarea{min-height:120px;resize:vertical}
+.form-box button{width:100%;padding:1rem;border-radius:999px;background:var(--ink);color:#fff;border:0;font:inherit;font-weight:500;cursor:pointer;transition:background .25s, transform .25s}
+.form-box button:hover{background:var(--sage);transform:translateY(-2px)}
+
+/* footer */
+footer{background:var(--ink);color:rgba(255,255,255,.6);padding:80px 6% 30px;margin-top:80px}
+.foot-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3.5rem;margin-bottom:3rem}
+.foot-brand p{font-size:.9rem;line-height:1.7;margin-top:1rem;max-width:340px}
+.foot-brand .logo{color:#fff}
+footer h5{font-size:.78rem;text-transform:uppercase;letter-spacing:.14em;color:#fff;margin-bottom:1.2rem;font-weight:600}
+footer ul{list-style:none}
+footer li{margin-bottom:.6rem}
+footer li a{font-size:.9rem;color:rgba(255,255,255,.55);text-decoration:none;transition:color .2s, padding .2s}
+footer li a:hover{color:#fff;padding-left:4px}
+.foot-bottom{max-width:1280px;margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:1.8rem;display:flex;justify-content:space-between;font-size:.8rem}
+
+#back-top{position:fixed;bottom:1.6rem;right:1.6rem;width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;border:0;cursor:pointer;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s, transform .25s, background .25s;z-index:90;box-shadow:var(--shadow-md)}
+#back-top.show{opacity:1;pointer-events:auto}
+#back-top:hover{background:var(--sage);transform:translateY(-3px)}
+
+@media (max-width:960px){
+  .hero{padding:130px 6% 80px}
+  .hero-grid{grid-template-columns:1fr;gap:3rem}
+  .pain-grid,.services,.process,.pricing-wrap,.contact,.foot-grid{grid-template-columns:1fr;gap:1.4rem}
+  .nav-links{display:none}
+  .plan.feature{transform:none}
+  .plan.feature:hover{transform:translateY(-4px)}
+  .t-card{flex:0 0 78vw}
+  .banner{margin:0 4%;padding:60px 6%}
+  section{padding:80px 6%}
+  .testimonials{padding:80px 0}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav id="nav">
+  <a href="#" class="logo">Cli<span>nivi</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">How it works</a></li>
+    <li><a href="#testimonials">Stories</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book a call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow reveal">For UK healthcare leaders</div>
+      <h1 class="reveal">The CQC inspection is coming. <em>You shouldn't have to face it alone.</em></h1>
+      <p class="lead reveal">If you've been losing sleep over policies that never feel finished, evidence you can't quite find, or a team that's looking to you for answers, we've sat where you're sitting. Clinivi walks alongside Registered Managers, Nominated Individuals and clinic founders to turn the noise of compliance into something calm, clear and ready.</p>
+      <div class="hero-actions reveal">
+        <a href="#contact" class="btn btn-primary">Talk to a real human <span class="arrow">→</span></a>
+        <a href="#services" class="btn btn-ghost">See how we help</a>
+      </div>
+    </div>
+    <aside class="hero-aside reveal">
+      <div class="aside-tag"><span class="dot"></span> Currently supporting 40+ providers</div>
+      <p class="aside-quote">"It felt like having a calm, brilliant colleague in the room with us, right up until inspection day."</p>
+      <div class="aside-stats">
+        <div class="aside-stat"><div class="n"><em>500</em>+</div><div class="l">Teams supported</div></div>
+        <div class="aside-stat"><div class="n"><em>98</em>%</div><div class="l">CQC pass rate</div></div>
+        <div class="aside-stat"><div class="n"><em>15</em>+</div><div class="l">Years on the ward</div></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- TRUST MARQUEE -->
+<div class="trust">
+  <div class="trust-track" id="trustTrack">
+    <!-- duplicated in JS -->
+  </div>
+</div>
+
+<!-- PAINS -->
+<section class="section-alt" id="pains">
+  <div class="section-head">
+    <div class="eyebrow reveal">Sound familiar?</div>
+    <h2 class="section-title reveal">You didn't go into healthcare <em>to fight paperwork.</em></h2>
+    <p class="section-sub reveal">Most leaders we meet aren't worried about the care, they're worried about proving it. Here's what usually sits behind the 11pm email.</p>
+  </div>
+  <div class="pain-grid">
+    <div class="pain reveal">
+      <div class="ico">✦</div>
+      <h4>"What if they ask for something I can't find?"</h4>
+      <p>Audits scattered across folders, drives and inboxes. You know the work is being done, you just can't prove it on demand. We build evidence systems that make inspection day boring.</p>
+    </div>
+    <div class="pain reveal">
+      <div class="ico">✦</div>
+      <h4>"I've inherited a service that isn't ready."</h4>
+      <p>New role, old gaps. Half-written policies, missing risk assessments and a team that's never had a mock inspection. We help you get hold of it without panic, and without blame.</p>
+    </div>
+    <div class="pain reveal">
+      <div class="ico">✦</div>
+      <h4>"I'm carrying this alone."</h4>
+      <p>Being the Registered Manager can be lonely. Decisions land on your desk and the buck stops with you. We give you a sounding board who's been there, and answers in plain English.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-head">
+    <div class="eyebrow reveal">How we help</div>
+    <h2 class="section-title reveal">Real support, <em>not consultancy theatre.</em></h2>
+    <p class="section-sub reveal">No 80-page reports you'll never read. No templates with another clinic's name still in them. Just steady, hands-on help from people who've run services themselves.</p>
+  </div>
+  <div class="services">
+    <div class="service reveal"><div class="ico">🩺</div><h3>CQC registration & coaching</h3><p>From the very first application through to the well-led conversation, we coach Registered Managers and Nominated Individuals until inspection day feels like a meeting, not a hurdle.</p></div>
+    <div class="service reveal"><div class="ico">📋</div><h3>Governance & compliance</h3><p>Risk registers, audit cycles, incident learning, board reporting, built around how your team actually works, not how a textbook says they should.</p></div>
+    <div class="service reveal"><div class="ico">🔍</div><h3>Mock inspections</h3><p>We walk your service the way a CQC inspector would, files open, staff interviewed, hard questions asked. You get a clear list of what to fix, in priority order.</p></div>
+    <div class="service reveal"><div class="ico">🏗️</div><h3>New service set-up</h3><p>Opening a clinic or hospital? We've taken providers from idea to "Registered", handling the paperwork so you can stay focused on care, recruitment and the build.</p></div>
+    <div class="service reveal"><div class="ico">🧬</div><h3>MHRA, JAG & lab readiness</h3><p>Specialist assessments for endoscopy, diagnostics, blood services and laboratory compliance, spotting the gaps long before a regulator does.</p></div>
+    <div class="service reveal"><div class="ico">🤝</div><h3>Independent complaint review</h3><p>When a complaint needs someone outside the room, we adjudicate fairly and clearly, protecting patients, staff and your reputation at the same time.</p></div>
+    <div class="service reveal"><div class="ico">👥</div><h3>Leadership coaching</h3><p>Confidence isn't a luxury for a Registered Manager, it's a safety feature. One-to-one coaching for the humans behind the badge.</p></div>
+    <div class="service reveal"><div class="ico">🛡️</div><h3>Infection prevention</h3><p>Walk-throughs, audits and staff sessions that turn IPC from a tick-box into a culture your team is proud of.</p></div>
+    <div class="service reveal"><div class="ico">📁</div><h3>Policies that fit you</h3><p>Bespoke policies written around your service model and workforce, not a generic library you'll quietly stop reading.</p></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section-alt" id="process">
+  <div class="section-head">
+    <div class="eyebrow reveal">How it works</div>
+    <h2 class="section-title reveal">Three steps. <em>No surprises.</em></h2>
+  </div>
+  <div class="process">
+    <div class="step reveal"><div class="step-n">1</div><h4>Tell us honestly</h4><p>A free, confidential call. No script, no pitch. Just tell us what's actually keeping you awake.</p></div>
+    <div class="step reveal"><div class="step-n">2</div><h4>We map a plan</h4><p>You'll get a clear, prioritised plan written for your service, what to fix this week, this month, this quarter.</p></div>
+    <div class="step reveal"><div class="step-n">3</div><h4>We do it with you</h4><p>On-site or remote, we work shoulder-to-shoulder with your team so the improvements stick long after we leave.</p></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-head">
+    <div class="eyebrow reveal">Client stories</div>
+    <h2 class="section-title reveal">The people we walked <em>through inspection day.</em></h2>
+    <p class="section-sub reveal">Hospitals, private clinics, family-run practices. Different sizes, same relief on the other side.</p>
+  </div>
+
+  <div class="marquee left">
+    <div class="marquee-track" id="row1"></div>
+  </div>
+  <div class="marquee right">
+    <div class="marquee-track" id="row2"></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-head">
+    <div class="eyebrow reveal">Pricing</div>
+    <h2 class="section-title reveal">Honest rates for <em>honest work.</em></h2>
+    <p class="section-sub reveal">Prevention is almost always cheaper than repair. Pick the shape of support that fits — change it whenever you need to.</p>
+  </div>
+  <div class="pricing-wrap">
+    <div class="plan reveal">
+      <div class="plan-tier">By the hour</div>
+      <div class="plan-price"><span class="cur">£</span>65<span class="per">/hr</span></div>
+      <p class="plan-desc">When you just need a calm second opinion. Good for a document review, a tricky policy question, or a quick gut-check before you send something.</p>
+      <ul class="plan-feats">
+        <li>Phone & email support</li>
+        <li>CQC advice on demand</li>
+        <li>Document & policy review</li>
+        <li>No retainer, no minimum</li>
+      </ul>
+      <a href="#contact" class="plan-cta">Start a conversation</a>
+      <div class="plan-note">Billed only for time used</div>
+    </div>
+
+    <div class="plan feature reveal">
+      <div class="plan-badge">Most chosen</div>
+      <div class="plan-tier">Bespoke partnership</div>
+      <div class="plan-price">Tailored</div>
+      <p class="plan-desc">Our most popular way of working, a full engagement built around your service, your team and the inspection you're walking towards.</p>
+      <ul class="plan-feats">
+        <li>Full governance review</li>
+        <li>Mock CQC inspection</li>
+        <li>Policy & procedure rebuild</li>
+        <li>Hands-on on-site days</li>
+        <li>Ongoing leadership coaching</li>
+      </ul>
+      <a href="#contact" class="plan-cta">Book a discovery call</a>
+      <div class="plan-note">Fixed scope, fixed fee, agreed upfront</div>
+    </div>
+
+    <div class="plan reveal">
+      <div class="plan-tier">New service set-up</div>
+      <div class="plan-price"><span class="cur">£</span>65<span class="per">/hr</span></div>
+      <p class="plan-desc">Opening a clinic or hospital? We take you from "idea on a whiteboard" to "registered and ready to open", without the dropped balls.</p>
+      <ul class="plan-feats">
+        <li>End-to-end CQC registration</li>
+        <li>Policy library written from scratch</li>
+        <li>Recruitment & HR guidance</li>
+        <li>Staff training & induction</li>
+      </ul>
+      <a href="#contact" class="plan-cta">Plan your opening</a>
+      <div class="plan-note">Most providers open within 4–6 months</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA banner -->
+<div class="banner">
+  <h2>When you're ready, <em>we're ready.</em></h2>
+  <p>One short call. No pressure, no script, just an honest read of where you are and what we'd do next. If we're not the right fit, we'll tell you.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn btn-primary">Book a free call <span class="arrow">→</span></a>
+    <a href="tel:+44" class="btn btn-ghost">Or call us directly</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact">
+    <div class="reveal">
+      <div class="eyebrow">Get in touch</div>
+      <h3>Tell us what's on your desk.</h3>
+      <p class="lead">Whether your inspection is in three weeks or you're just starting to think about governance, we'd love to listen. Most replies go out the same day.</p>
+      <div class="detail"><div class="detail-ico">✉</div><div><div class="l">Email</div><div class="v">info@clinivi.co.uk</div></div></div>
+      <div class="detail"><div class="detail-ico">📍</div><div><div class="l">Where we work</div><div class="v">Across the UK, and beyond when asked</div></div></div>
+      <div class="detail"><div class="detail-ico">⏱</div><div><div class="l">Response time</div><div class="v">Same day, weekdays. Within 24h otherwise.</div></div></div>
+    </div>
+    <form class="form-box reveal" onsubmit="event.preventDefault();this.querySelector('button').textContent='Thanks — we\'ll be in touch ✓'">
+      <div class="field"><label>Your name</label><input type="text" placeholder="First and last" required /></div>
+      <div class="field"><label>Organisation</label><input type="text" placeholder="Clinic, hospital or trust" /></div>
+      <div class="field"><label>Email</label><input type="email" placeholder="you@organisation.co.uk" required /></div>
+      <div class="field"><label>What's on your mind?</label><textarea placeholder="An upcoming inspection, a new service, a tricky complaint, anything."></textarea></div>
+      <button type="submit">Send message →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a href="#" class="logo">Cli<span>nivi</span></a>
+      <p>A family-run healthcare governance consultancy built on decades of clinical, regulatory and operational experience across the UK.</p>
+    </div>
+    <div><h5>Services</h5><ul><li><a href="#services">CQC coaching</a></li><li><a href="#services">Mock inspections</a></li><li><a href="#services">New set-up</a></li><li><a href="#services">Policies</a></li></ul></div>
+    <div><h5>Company</h5><ul><li><a href="#testimonials">Stories</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    <div><h5>Get in touch</h5><ul><li><a href="mailto:info@clinivi.co.uk">info@clinivi.co.uk</a></li><li><a href="#contact">Book a call</a></li></ul></div>
+  </div>
+  <div class="foot-bottom">
+    <div>© <span id="yr"></span> Clinivi. All rights reserved.</div>
+    <div>Made with care in the UK</div>
+  </div>
+</footer>
+
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // trust marquee content
+  const trustItems = ['CQC Compliance','MHRA Assessments','JAG Accreditation','Clinical Governance','Leadership Coaching','Mock Inspections','IPC & Safety','UK Nationwide'];
+  const trustTrack = document.getElementById('trustTrack');
+  const trustHtml = trustItems.map(t => `<div class="trust-item"><span class="mark">✦</span> ${t}</div>`).join('');
+  trustTrack.innerHTML = trustHtml + trustHtml;
+
+  // testimonials data
+  const testimonials = [
+    {q:"Vicky is one of a kind. Having her is like having a regulatory missile defence system.", n:"Louis El Sharif", r:"Registered Manager, Alexandra Private Hospital"},
+    {q:"Thanks to Clinivi's hands-on support, we passed our CQC inspection. Their knowledge is second to none.", n:"Kelly Tivey", r:"Registered Manager"},
+    {q:"Vicky was my CQC advisor through the entire build of our hospital. I would highly recommend her.", n:"Elena Prousskaia", r:"Consultant Surgeon, North Bristol Private Hospital"},
+    {q:"They felt less like consultants and more like the senior colleague every Registered Manager wishes they had.", n:"Amelia Hart", r:"Director of Nursing"},
+    {q:"For the first time in two years, I went into an inspection week without dreading the post.", n:"David Okafor", r:"Clinic Owner, Manchester"},
+    {q:"Plain English, real answers, and someone who actually picks up the phone. Rare in this industry.", n:"Sarah Whitcombe", r:"Nominated Individual"},
+    {q:"Our governance went from a folder no one opened to something the whole team actually uses.", n:"Rahul Mehta", r:"Medical Director"},
+    {q:"They helped us open our doors on time and on budget. We'd never have made it without them.", n:"Joanne Fielding", r:"Founder, Surrey Day Surgery"}
+  ];
+  const card = t => `
+    <article class="t-card">
+      <div class="t-stars">★★★★★</div>
+      <p class="t-quote">"${t.q}"</p>
+      <div class="t-meta">
+        <div class="t-avatar">${t.n.split(' ').map(s=>s[0]).slice(0,2).join('')}</div>
+        <div><div class="t-name">${t.n}</div><div class="t-role">${t.r}</div></div>
+      </div>
+    </article>`;
+  const row1 = document.getElementById('row1');
+  const row2 = document.getElementById('row2');
+  const a = testimonials.slice(0,4).map(card).join('');
+  const b = testimonials.slice(4).map(card).join('');
+  row1.innerHTML = a + a; // duplicate for seamless loop
+  row2.innerHTML = b + b;
+
+  // GSAP subtle reveal
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.reveal').forEach(el => {
+    gsap.fromTo(el, {y:28, opacity:0}, {
+      y:0, opacity:1, duration:.9, ease:'power3.out',
+      scrollTrigger:{trigger:el, start:'top 88%'}
+    });
+  });
+
+  // nav scroll state + progress + back top
+  const nav = document.getElementById('nav');
+  const bar = document.getElementById('progress');
+  const back = document.getElementById('back-top');
+  back.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('scrolled', y > 20);
+    back.classList.toggle('show', y > 600);
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (y / h * 100) + '%';
+  });
+
+  // hero parallax-ish nudge on mouse
+  const aside = document.querySelector('.hero-aside');
+  if (aside) {
+    document.querySelector('.hero').addEventListener('mousemove', e => {
+      const r = aside.getBoundingClientRect();
+      const cx = (e.clientX - (r.left + r.width/2)) / r.width;
+      const cy = (e.clientY - (r.top + r.height/2)) / r.height;
+      gsap.to(aside, {x: cx*8, y: cy*8, duration:.6, ease:'power2.out'});
+    });
+  }
+</script>
+</body>
+</html>
